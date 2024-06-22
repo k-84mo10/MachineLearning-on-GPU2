@@ -227,7 +227,7 @@ def fit(
         if (epoch + 1) == num_epochs:
             if save_model is True:
                 torch.save(
-                    net,
+                    net.state_dict(),
                     os.path.join(
                         save_dir,
                         f"epoch{epoch}.pth",
@@ -647,7 +647,7 @@ def fit_vec(
         if epoch == num_epochs:
             if save_model is True:
                 torch.save(
-                    net,
+                    net.state_dict(),
                     os.path.join(
                         os.path.expanduser("~"),
                         "static",

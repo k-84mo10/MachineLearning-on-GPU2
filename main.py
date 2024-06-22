@@ -119,18 +119,24 @@ net = model_mapping[config.net](pretrained=config.pretrained)
 
 torch_seed()
 
-# vitを使うときはこれ
-# fc_in_features = net.heads.head.in_features
-# net.heads.head = nn.Linear(fc_in_features, 16)
+if config.transfer:
+    for param in net.parameters():
+        param.requires_grad = False
 
-# resnetなどを使うときはこっち
-fc_in_features = net.fc.in_features
-net.fc = nn.Linear(fc_in_features, 16)
-
-# vgg19
-# in_features = net.classifier[6].in_features
-# net.classifier[6] = nn.Linear(in_features, 16)
-# net.avgpool = nn.Identity()
+if hasattr(net, 'heads'):
+    # ViTモデルの場合
+    fc_in_features = net.heads.head.in_features
+    net.heads.head = nn.Linear(fc_in_features, 16)
+elif hasattr(net, 'fc'):
+    # ResNetモデルの場合
+    fc_in_features = net.fc.in_features
+    net.fc = nn.Linear(fc_in_features, 16)
+elif hasattr(net, 'classifier') and isinstance(net.classifier, nn.Sequential):
+    # VGGモデルの場合
+    fc_in_features = net.classifier[-1].in_features
+    net.classifier[-1] = nn.Linear(fc_in_features, 16)
+else:
+    raise AttributeError('The model is not recognized as a ViT, ResNet, or VGG model.')
 
 
 net = net.to(device)

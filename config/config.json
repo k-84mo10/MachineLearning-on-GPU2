@@ -1,5 +1,5 @@
 {
-    "net": "vit_l_16",
+    "net": "vgg19_bn",
     "pretrained": true,
     "transfer": false,
     "lr": 0.001,

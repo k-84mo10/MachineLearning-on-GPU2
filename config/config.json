@@ -8,7 +8,7 @@
     "batch_size": 10,
     "nvidia": 1,
     "num_val": 8,
-    "which_data": "dataset3",
+    "which_data": "dataset0",
     "train_data": "train",
     "test_data": "test",
     "generated": false,

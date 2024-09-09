@@ -36,6 +36,7 @@ config = load_config(
 
 # 開始時間を記録
 start_time = time.time()
+print(f"start @{start_time}")
 
 args = sys.argv
 program_name = args[0].split(".")[0].split("/")[-1]
